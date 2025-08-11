@@ -1,10 +1,11 @@
 name: huggingface_tools
 description: Tools to search and download models from HuggingFace.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/agilord/huggingface_tools
 topics:
   - cli
   - llm
+  - huggingface
   - tool
   - setup
 

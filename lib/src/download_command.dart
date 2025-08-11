@@ -51,6 +51,12 @@ class DownloadCommand extends Command<void> {
         abbr: 'r',
         help: 'Resume incomplete downloads',
         defaultsTo: true,
+      )
+      ..addFlag(
+        'auto-path',
+        abbr: 'a',
+        help: 'Automatically append model ID and filename to output path',
+        defaultsTo: false,
       );
   }
 
@@ -62,6 +68,7 @@ class DownloadCommand extends Command<void> {
     final token = argResults!['token'] as String?;
     final verbose = argResults!['verbose'] as bool;
     final resume = argResults!['resume'] as bool;
+    final autoPath = argResults!['auto-path'] as bool;
 
     if (verbose) {
       print('Fetching model information for: $modelId');
@@ -92,7 +99,11 @@ class DownloadCommand extends Command<void> {
 
       // Determine output file path
       String targetFilePath;
-      if (outputPath.endsWith('/') || Directory(outputPath).existsSync()) {
+      if (autoPath) {
+        // Auto-path: append model-id and filename to output path
+        targetFilePath = path.join(outputPath, modelId, filename);
+      } else if (outputPath.endsWith('/') ||
+          Directory(outputPath).existsSync()) {
         // Output is a directory
         targetFilePath = path.join(outputPath, filename);
       } else {
